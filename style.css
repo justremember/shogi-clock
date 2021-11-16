@@ -14,4 +14,5 @@
 
 .settings {
     margin: 10px 10px;
+    overflow: auto;
 }
