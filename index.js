@@ -136,6 +136,7 @@ for (var which of ['left', 'right']) {
       } else if (!clockState.paused) {
         updateClock();
       }
+      clockState[leftOrRight]['byoyomi'] = clockState[leftOrRight]['set-byoyomi'];
       clockState.currTurn = leftOrRight === 'left' ? 'right' : 'left';
     }
   }(which));
