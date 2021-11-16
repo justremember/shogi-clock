@@ -133,7 +133,7 @@ for (var which of ['left', 'right']) {
         clockState.lastTime = new Date().getTime();
         clockState.started = true;
         $('.settings form .field').addClass('disabled');
-      } else {
+      } else if (!clockState.paused) {
         updateClock();
       }
       clockState.currTurn = leftOrRight === 'left' ? 'right' : 'left';
@@ -160,6 +160,7 @@ $('#pause-button').click(function() {
 $('#stop-button').click(function() {
   clockState.started = false;
   clockState.paused = false;
+  $('#pause-button').text('Pause');
   clockState.left
   $('.settings form .field').removeClass('disabled');
   for (var fieldName of ['initial-time', 'byoyomi', 'num-periods']) {
