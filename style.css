@@ -1,0 +1,17 @@
+#grid {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    grid-template-columns: 40vw 20vw 40vw;
+}
+
+.button-container {
+}
+
+.clock-button {
+    height: 100%;
+}
+
+.settings {
+    margin: 10px 10px;
+}

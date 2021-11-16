@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Shogi Clock</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="grid">
+      <div class="button-container">
+        <button class="fluid ui massive button clock-button" id="left-clock">
+          <div id="left-clock-notif"></div>
+          <span id="left-clock-init"></span>
+          <span id="left-clock-byo"></span>
+          <span id="left-clock-periods"></span>
+        </button>
+      </div>
+      <div class="settings">
+        <h2 class="ui header">Settings</h2>
+        <form class="ui form">
+          <div class="field" id="initial-field">
+            <label>Initial time (in seconds)</label>
+            <input type="text" name="initial-time" placeholder="Initial time" value="0">
+          </div>
+          <div class="field" id="byoyomi-field">
+            <label>Byoyomi (in seconds) </label>
+            <input type="text" name="byoyomi" placeholder="Byoyomi" value="60">
+          </div>
+          <div class="field" id="num-periods-field">
+            <label>Number of periods</label>
+            <input type="text" name="num-periods" placeholder="# of periods" value="5">
+          </div>
+          <div class="ui error message"></div>
+        </form>
+        <button class="ui large button" id="pause-button">Pause</button>
+        <button class="ui large button" id="stop-button">Stop</button>
+        <br />
+        <br />
+        <p>
+        How to use: Input your settings above.
+        <br />
+        Then Gote (2nd player) presses on their clock and the game starts.
+        </p>
+      </div>
+      <div class="button-container">
+        <button class="fluid ui massive button clock-button" id="right-clock">
+          <div id="right-clock-notif"></div>
+          <span id="right-clock-init"></span>
+          <span id="right-clock-byo"></span>
+          <span id="right-clock-periods"></span>
+        </button>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
