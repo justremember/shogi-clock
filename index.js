@@ -1,3 +1,41 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+exports.encodeAsHMSMs = function(seconds) {
+  var date = new Date(null);
+  date.setMilliseconds(seconds * 1000);
+  if (seconds >= 3600) {
+    return date.toISOString().substr(11, 8);
+  }
+  if (seconds >= 10) {
+    return date.toISOString().substr(14, 5);
+  }
+  if (seconds > 0) {
+    return date.toISOString().substr(18, 4);
+  }
+  if (seconds === 0) {
+    return ''
+  }
+}
+
+exports.encodeState = function(clock, clockState) {
+  var currClock = clockState[clock];
+  var init = currClock['initial-time'] ? exports.encodeAsHMSMs(currClock['initial-time']) : '';
+  var byo = (init ? ' + ' : '') + exports.encodeAsHMSMs(currClock['byoyomi']);
+  var periods = ' x ' + currClock['num-periods'];
+  if (currClock['num-periods'] === 1) {
+    periods = '(Last period)';
+  }
+  if (currClock['num-periods'] === 0 || currClock['set-byoyomi'] == 0) {
+    periods = '';
+    byo = '';
+  }
+  return {
+    init: init,
+    byo: byo,
+    periods: periods,
+  };
+}
+
+},{}],2:[function(require,module,exports){
 var clockEncode = require('./clockEncode');
 
 var clockState = {
@@ -171,3 +209,5 @@ $('.settings form')
     }
   })
 ;
+
+},{"./clockEncode":1}]},{},[2]);
