@@ -10,3 +10,4 @@ Run `npm run build` to compile all the javascripts in src/ into index.js
 - Auto-scaling clock font size
 - Adjustable clock font size
 - Keyboard controls
+- Collapse-able settings panel
