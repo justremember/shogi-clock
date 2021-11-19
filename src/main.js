@@ -1,35 +1,18 @@
 var clockRender = require('./clockRender');
+var clockState = require('./clockState');
 var validations = require('./validations');
 
-var clockState = {
-  started: false,
-  paused: false,
-  lastTime: new Date().getTime(),
-  currTurn: 'left',
-  left: {
-    'initial-time': 0,
-    'set-byoyomi': 60,
-    'byoyomi': 60,
-    'num-periods': 5,
-  },
-  right: {
-    'initial-time': 0,
-    'set-byoyomi': 60,
-    'byoyomi': 60,
-    'num-periods': 5,
-  },
-}
 
 function updateState(fieldName, val) {
-    var num = parseInt(val);
-    if (!isNaN(num) && num < 86400) {
-      clockState.left[fieldName] = num;
-      clockState.right[fieldName] = num;
-      if (fieldName === 'byoyomi') {
-        clockState.left['set-byoyomi'] = num;
-        clockState.right['set-byoyomi'] = num;
-      }
+  var num = parseInt(val);
+  if (!isNaN(num) && num < 86400) {
+    clockState.set('left.' + fieldName, num);
+    clockState.set('right.' + fieldName, num);
+    if (fieldName === 'byoyomi') {
+      clockState.set('left.set-byoyomi', num);
+      clockState.set('right.set-byoyomi', num);
     }
+  }
 }
 
 function updateStateAfterFormChange(fieldName) {
@@ -66,7 +49,7 @@ function updateClock() {
       clockRender.timeUp(clockState.currTurn);
     }
   }
-  clockState.lastTime = currTime;
+  clockState.set('lastTime', currTime);
 }
 
 // Main loop
@@ -90,37 +73,37 @@ for (var which of ['left', 'right']) {
   $('#' + which + '-clock').click(function(leftOrRight) {
     return function() {
       if (!clockState.started) {
-        clockState.lastTime = new Date().getTime();
-        clockState.started = true;
-        clockState.disableFormFields();
+        clockState.set('lastTime', new Date().getTime());
+        clockState.set('started', true);
+        clockRender.disableFormFields();
       } else if (!clockState.paused) {
         updateClock();
       }
-      clockState[leftOrRight]['byoyomi'] = clockState[leftOrRight]['set-byoyomi'];
-      clockState.currTurn = leftOrRight === 'left' ? 'right' : 'left';
+      clockState.set(leftOrRight + '.byoyomi', clockState[leftOrRight]['set-byoyomi']);
+      clockState.set('currTurn', leftOrRight === 'left' ? 'right' : 'left');
     }
   }(which));
 }
 
 $('#pause-button').click(function() {
   if (clockState.paused === false) {
-    clockState.paused = true;
+    clockState.set('paused', true);
     clockRender.pause();
     if (clockState.started) {
       updateClock();
     }
   } else {
-    clockState.paused = false;
+    clockState.set('paused', false);
     clockRender.resume();
     if (clockState.started) {
-      clockState.lastTime = new Date().getTime();
+      clockState.set('lastTime', new Date().getTime());
     }
   }
 });
 
 $('#stop-button').click(function() {
-  clockState.started = false;
-  clockState.paused = false;
+  clockState.set('started', false);
+  clockState.set('paused', false);
   clockRender.resume();
   clockRender.enableFormFields();
   for (var fieldName of ['initial-time', 'byoyomi', 'num-periods']) {

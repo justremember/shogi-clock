@@ -73,10 +73,8 @@ exports.disableFormFields = function() {
 
 
 },{"./clockEncode":1}],3:[function(require,module,exports){
-var clockRender = require('./clockRender');
-var validations = require('./validations');
-
-var clockState = {
+// Stores the app state and all state changes to be processed in the next iteration of main loop
+module.exports = {
   started: false,
   paused: false,
   lastTime: new Date().getTime(),
@@ -93,18 +91,42 @@ var clockState = {
     'byoyomi': 60,
     'num-periods': 5,
   },
+
+  changedStateKeys: new Set(),
+
+  set: function(key, val) {
+    var keyParts = key.split('.');
+    var obj = this;
+    for (var k of keyParts.slice(0, keyParts.length - 1)) {
+      obj = obj[k];
+    }
+    obj[keyParts[keyParts.length - 1]] = val;
+    this.changedStateKeys.add(key);
+  },
+
+  popStateChanges: function() {
+    var changedStateKeys = this.changedStateKeys;
+    this.changedStateKeys = [];
+    return changedStateKeys;
+  }
 }
 
+},{}],4:[function(require,module,exports){
+var clockRender = require('./clockRender');
+var clockState = require('./clockState');
+var validations = require('./validations');
+
+
 function updateState(fieldName, val) {
-    var num = parseInt(val);
-    if (!isNaN(num) && num < 86400) {
-      clockState.left[fieldName] = num;
-      clockState.right[fieldName] = num;
-      if (fieldName === 'byoyomi') {
-        clockState.left['set-byoyomi'] = num;
-        clockState.right['set-byoyomi'] = num;
-      }
+  var num = parseInt(val);
+  if (!isNaN(num) && num < 86400) {
+    clockState.set('left.' + fieldName, num);
+    clockState.set('right.' + fieldName, num);
+    if (fieldName === 'byoyomi') {
+      clockState.set('left.set-byoyomi', num);
+      clockState.set('right.set-byoyomi', num);
     }
+  }
 }
 
 function updateStateAfterFormChange(fieldName) {
@@ -141,7 +163,7 @@ function updateClock() {
       clockRender.timeUp(clockState.currTurn);
     }
   }
-  clockState.lastTime = currTime;
+  clockState.set('lastTime', currTime);
 }
 
 // Main loop
@@ -165,37 +187,37 @@ for (var which of ['left', 'right']) {
   $('#' + which + '-clock').click(function(leftOrRight) {
     return function() {
       if (!clockState.started) {
-        clockState.lastTime = new Date().getTime();
-        clockState.started = true;
-        clockState.disableFormFields();
+        clockState.set('lastTime', new Date().getTime());
+        clockState.set('started', true);
+        clockRender.disableFormFields();
       } else if (!clockState.paused) {
         updateClock();
       }
-      clockState[leftOrRight]['byoyomi'] = clockState[leftOrRight]['set-byoyomi'];
-      clockState.currTurn = leftOrRight === 'left' ? 'right' : 'left';
+      clockState.set(leftOrRight + '.byoyomi', clockState[leftOrRight]['set-byoyomi']);
+      clockState.set('currTurn', leftOrRight === 'left' ? 'right' : 'left');
     }
   }(which));
 }
 
 $('#pause-button').click(function() {
   if (clockState.paused === false) {
-    clockState.paused = true;
+    clockState.set('paused', true);
     clockRender.pause();
     if (clockState.started) {
       updateClock();
     }
   } else {
-    clockState.paused = false;
+    clockState.set('paused', false);
     clockRender.resume();
     if (clockState.started) {
-      clockState.lastTime = new Date().getTime();
+      clockState.set('lastTime', new Date().getTime());
     }
   }
 });
 
 $('#stop-button').click(function() {
-  clockState.started = false;
-  clockState.paused = false;
+  clockState.set('started', false);
+  clockState.set('paused', false);
   clockRender.resume();
   clockRender.enableFormFields();
   for (var fieldName of ['initial-time', 'byoyomi', 'num-periods']) {
@@ -204,7 +226,7 @@ $('#stop-button').click(function() {
   }
 });
 
-},{"./clockRender":2,"./validations":4}],4:[function(require,module,exports){
+},{"./clockRender":2,"./clockState":3,"./validations":5}],5:[function(require,module,exports){
 module.exports = function() {
   $('.settings form')
     .form({
@@ -242,4 +264,4 @@ module.exports = function() {
   ;
 };
 
-},{}]},{},[3]);
+},{}]},{},[4]);
