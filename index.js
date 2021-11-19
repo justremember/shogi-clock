@@ -38,6 +38,44 @@ exports.encodeState = function(clock, clockState) {
 },{}],2:[function(require,module,exports){
 var clockEncode = require('./clockEncode');
 
+exports.render = function(clockState) {
+  for (var which of ['left', 'right']) {
+    for (var timeAspect of ['init', 'byo', 'periods']) {
+      $('#' + which + '-clock-' + timeAspect).text(clockEncode.encodeState(which, clockState)[timeAspect]);
+    }
+  }
+}
+
+exports.timeUpNotif = function(which) {
+  $('#' + which + '-clock-notif').text('Time up!');
+}
+
+exports.clearNotifs = function() {
+  $('#left-clock-notif').text('');
+  $('#right-clock-notif').text('');
+}
+
+exports.pause = function(text) {
+  $('#pause-button').text('Resume');
+}
+
+exports.resume = function(text) {
+  $('#pause-button').text('Pause');
+}
+
+exports.enableFormFields = function() {
+  $('.settings form .field').removeClass('disabled');
+}
+
+exports.disableFormFields = function() {
+  $('.settings form .field').addClass('disabled');
+}
+
+
+},{"./clockEncode":1}],3:[function(require,module,exports){
+var clockRender = require('./clockRender');
+var validations = require('./validations');
+
 var clockState = {
   started: false,
   paused: false,
@@ -55,14 +93,6 @@ var clockState = {
     'byoyomi': 60,
     'num-periods': 5,
   },
-}
-
-function updateButtons() {
-  for (var which of ['left', 'right']) {
-    for (var timeAspect of ['init', 'byo', 'periods']) {
-      $('#' + which + '-clock-' + timeAspect).text(clockEncode.encodeState(which, clockState)[timeAspect]);
-    }
-  }
 }
 
 function updateState(fieldName, val) {
@@ -108,7 +138,7 @@ function updateClock() {
     } else {
       // stop time
       clockState.started = false;
-      $('#' + clockState.currTurn + '-clock-notif').text('Time up!');
+      clockRender.timeUp(clockState.currTurn);
     }
   }
   clockState.lastTime = currTime;
@@ -116,11 +146,12 @@ function updateClock() {
 
 // Main loop
 $(function() {
+  validations();
   setInterval(function() {
     if (clockState.started && !clockState.paused) {
       updateClock();
     }
-    updateButtons();
+    clockRender.render(clockState);
   }, 1000/60);
 });
 
@@ -136,7 +167,7 @@ for (var which of ['left', 'right']) {
       if (!clockState.started) {
         clockState.lastTime = new Date().getTime();
         clockState.started = true;
-        $('.settings form .field').addClass('disabled');
+        clockState.disableFormFields();
       } else if (!clockState.paused) {
         updateClock();
       }
@@ -149,13 +180,13 @@ for (var which of ['left', 'right']) {
 $('#pause-button').click(function() {
   if (clockState.paused === false) {
     clockState.paused = true;
-    $(this).text('Resume');
+    clockRender.pause();
     if (clockState.started) {
       updateClock();
     }
   } else {
     clockState.paused = false;
-    $(this).text('Pause');
+    clockRender.resume();
     if (clockState.started) {
       clockState.lastTime = new Date().getTime();
     }
@@ -165,49 +196,50 @@ $('#pause-button').click(function() {
 $('#stop-button').click(function() {
   clockState.started = false;
   clockState.paused = false;
-  $('#pause-button').text('Pause');
-  clockState.left
-  $('.settings form .field').removeClass('disabled');
+  clockRender.resume();
+  clockRender.enableFormFields();
   for (var fieldName of ['initial-time', 'byoyomi', 'num-periods']) {
     updateState(fieldName, $('input[name=' + fieldName + ']').val())
-    $('#left-clock-notif').text('');
-    $('#right-clock-notif').text('');
+    clockRender.clearNotifs();
   }
 });
 
-$('.settings form')
-  .form({
-    on: 'blur',
-    fields: {
-      initialTime: {
-        identifier  : 'initial-time',
-        rules: [
-          {
-            type   : 'integer[0..86399]',
-            prompt : 'Please enter a positive value below 86400'
-          }
-        ]
-      },
-      byoyomi: {
-        identifier  : 'byoyomi',
-        rules: [
-          {
-            type   : 'integer[0..86399]',
-            prompt : 'Please enter a positive value below 86400'
-          }
-        ]
-      },
-      periods: {
-        identifier  : 'num-periods',
-        rules: [
-          {
-            type   : 'integer[0..86399]',
-            prompt : 'Please enter a positive value below 86400'
-          }
-        ]
-      },
-    }
-  })
-;
+},{"./clockRender":2,"./validations":4}],4:[function(require,module,exports){
+module.exports = function() {
+  $('.settings form')
+    .form({
+      on: 'change',
+      fields: {
+        initialTime: {
+          identifier  : 'initial-time',
+          rules: [
+            {
+              type   : 'integer[0..86399]',
+              prompt : 'Please enter a positive value below 86400'
+            }
+          ]
+        },
+        byoyomi: {
+          identifier  : 'byoyomi',
+          rules: [
+            {
+              type   : 'integer[0..86399]',
+              prompt : 'Please enter a positive value below 86400'
+            }
+          ]
+        },
+        periods: {
+          identifier  : 'num-periods',
+          rules: [
+            {
+              type   : 'integer[0..86399]',
+              prompt : 'Please enter a positive value below 86400'
+            }
+          ]
+        },
+      }
+    })
+  ;
+};
 
-},{"./clockEncode":1}]},{},[2]);
+},{}]},{},[3]);
