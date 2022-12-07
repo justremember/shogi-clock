@@ -6,7 +6,7 @@ import ClockBody from '@/components/ClockBody';
 export default function Home() {
   return (
     <div>
-      <h1>Home</h1>
+      <h1>Shogi Clock</h1>
       <ClockBody />
     </div>
   );
