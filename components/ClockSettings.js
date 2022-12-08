@@ -19,6 +19,7 @@ export default function ClockSettings({ onSettingsChange }) {
               <ErrorMessage name='initialTime' />
             </div>
             <button type='submit' className='btn btn-secondary'>Update Settings</button>
+            <span>Time control settings will be updated on reset.</span>
           </Form>
         )}
       </Formik>

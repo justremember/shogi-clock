@@ -39,7 +39,7 @@ const useCountdown = (initialTime, name) => {
       case 'reset':
         return {
           ...state,
-          time: initialTime,
+          time: state.initialTime,
         }
       default:
         console.log('unrecognized action type:', action.type);
@@ -123,9 +123,6 @@ export default function ClockBody() {
   const updateSettings = (settings) => {
     timer1SetInitialTime(settings.initialTime);
     timer2SetInitialTime(settings.initialTime);
-    timer1Reset();
-    timer2Reset();
-    alert('wow');
   }
 
   return (
@@ -145,6 +142,8 @@ export default function ClockBody() {
           timedOut={timer2Time <= 0}
         />
       </div>
+
+      <button onClick={() => {timer1Reset(); timer2Reset();}}>Reset</button>
     </div>
   );
 }
