@@ -3,7 +3,7 @@ import { useReducer, useState, useEffect } from 'react';
 
 
 const useCountdown = (initialTime, name) => {
-  const FPS = 1;
+  const FPS = 60;
   const currTime = new Date().getTime();
   const initialState = {
     time: initialTime,
@@ -27,7 +27,7 @@ const useCountdown = (initialTime, name) => {
       case 'tick':
         return {
           ...state,
-          time: state.deadline - new Date().getTime(),
+          time: Math.max(state.deadline - new Date().getTime(), 0),
         };
       default:
         console.log('unrecognized action type:', action.type);
@@ -48,17 +48,23 @@ const useCountdown = (initialTime, name) => {
       intervalId = setInterval(() => {
         dispatch({ type: 'tick' });
       }, 1000/FPS);
-      // console.log('started interval', intervalId);
+      console.log('started interval', intervalId);
     }
 
     return () => {
       if (intervalId !== undefined) {
         clearInterval(intervalId);
         // dispatch({ type: 'tick' });
-        // console.log('cleared interval', intervalId);
+        console.log('cleared interval', intervalId);
       }
     }
   }, [paused]);
+
+  useEffect(() => {
+    if (state.time <= 0) {
+      setPaused(true);
+    }
+  }, [state.time]);
 
   return [state.time, paused, setPaused];
 }
@@ -69,20 +75,24 @@ export default function ClockBody() {
     timer1Time,
     timer1Paused,
     timer1SetPaused,
-  ] = useCountdown(30000, 'left');
+  ] = useCountdown(5000, 'left');
   const [
     timer2Time,
     timer2Paused,
     timer2SetPaused,
-  ] = useCountdown(30000, 'right');
+  ] = useCountdown(5000, 'right');
 
   const timer1Click = () => {
-    timer1SetPaused(true);
-    timer2SetPaused(false);
+    if (timer1Time > 0 && timer2Time > 0) {
+      timer1SetPaused(true);
+      timer2SetPaused(false);
+    }
   }
   const timer2Click = () => {
-    timer2SetPaused(true);
-    timer1SetPaused(false);
+    if (timer1Time > 0 && timer2Time > 0) {
+      timer2SetPaused(true);
+      timer1SetPaused(false);
+    }
   }
 
   return (
@@ -91,11 +101,13 @@ export default function ClockBody() {
         time={timer1Time}
         paused={timer1Paused}
         onClick={timer1Click}
+        timedOut={timer1Time <= 0}
       />
       <ClockButton
         time={timer2Time}
         paused={timer2Paused}
         onClick={timer2Click}
+        timedOut={timer2Time <= 0}
       />
     </div>
   );
