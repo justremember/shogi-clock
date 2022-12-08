@@ -7,6 +7,7 @@ const useCountdown = (initialTime, name) => {
   const FPS = 60;
   const currTime = new Date().getTime();
   const initialState = {
+    initialTime,
     time: initialTime,
     // pausedTimestamp: currTime,
     deadline: currTime + initialTime,
@@ -30,6 +31,16 @@ const useCountdown = (initialTime, name) => {
           ...state,
           time: Math.max(state.deadline - new Date().getTime(), 0),
         };
+      case 'setInitialTime':
+        return {
+          ...state,
+          initialTime: action.initialTime,
+        }
+      case 'reset':
+        return {
+          ...state,
+          time: initialTime,
+        }
       default:
         console.log('unrecognized action type:', action.type);
         return state;
@@ -67,7 +78,16 @@ const useCountdown = (initialTime, name) => {
     }
   }, [state.time]);
 
-  return [state.time, paused, setPaused];
+  const setInitialTime = (initialTime) => {
+    dispatch({ type: 'setInitialTime', initialTime });
+  }
+
+  const reset = () => {
+    dispatch({ type: 'reset' });
+    setPaused(true);
+  }
+
+  return [state.time, paused, setPaused, setInitialTime, reset];
 }
 
 
@@ -76,11 +96,15 @@ export default function ClockBody() {
     timer1Time,
     timer1Paused,
     timer1SetPaused,
+    timer1SetInitialTime,
+    timer1Reset,
   ] = useCountdown(5000, 'left');
   const [
     timer2Time,
     timer2Paused,
     timer2SetPaused,
+    timer2SetInitialTime,
+    timer2Reset,
   ] = useCountdown(5000, 'right');
 
   const timer1Click = () => {
@@ -97,7 +121,11 @@ export default function ClockBody() {
   }
 
   const updateSettings = (settings) => {
-    alert(settings.initialTime);
+    timer1SetInitialTime(settings.initialTime);
+    timer2SetInitialTime(settings.initialTime);
+    timer1Reset();
+    timer2Reset();
+    alert('wow');
   }
 
   return (
