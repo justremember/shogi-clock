@@ -1,4 +1,5 @@
 import ClockButton from '@/components/ClockButton';
+import ClockSettings from '@/components/ClockSettings';
 import { useReducer, useState, useEffect } from 'react';
 
 
@@ -95,20 +96,27 @@ export default function ClockBody() {
     }
   }
 
+  const updateSettings = (settings) => {
+    alert(settings.initialTime);
+  }
+
   return (
     <div>
-      <ClockButton
-        time={timer1Time}
-        paused={timer1Paused}
-        onClick={timer1Click}
-        timedOut={timer1Time <= 0}
-      />
-      <ClockButton
-        time={timer2Time}
-        paused={timer2Paused}
-        onClick={timer2Click}
-        timedOut={timer2Time <= 0}
-      />
+      <ClockSettings onSettingsChange={updateSettings} />
+      <div className='py-2'>
+        <ClockButton
+          time={timer1Time}
+          paused={timer1Paused}
+          onClick={timer1Click}
+          timedOut={timer1Time <= 0}
+        />
+        <ClockButton
+          time={timer2Time}
+          paused={timer2Paused}
+          onClick={timer2Click}
+          timedOut={timer2Time <= 0}
+        />
+      </div>
     </div>
   );
 }
