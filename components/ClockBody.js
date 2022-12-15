@@ -3,8 +3,8 @@ import ClockButton from '@/components/ClockButton';
 export default function ClockBody() {
   return (
     <div>
-      <ClockButton time={100} />
-      <ClockButton time={100} />
+      <ClockButton id={0} />
+      <ClockButton id={1} />
     </div>
   );
 }

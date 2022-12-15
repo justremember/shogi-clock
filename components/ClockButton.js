@@ -1,7 +1,13 @@
-export default function ClockButton({ time, onClick, timedOut, paused }) {
+import { useContext } from 'react';
+import { ClockContext } from '@/hooks/clockState';
+
+export default function ClockButton({ id }) {
+  const { clockState, clockDispatch } = useContext(ClockContext);
+  const { initialTime, byo, byoRounds } = clockState.state.clocks[id];
+  console.log('id', id);
   return (
-    <button onClick={onClick} style={{ color: timedOut ? 'red'  : null }}>
-      {time}
+    <button>
+      { '' + initialTime + ' + ' + byo + ' * ' + byoRounds }
     </button>
   );
 }
