@@ -10,7 +10,10 @@ export default function ClockSettings() {
       <Formik
         initialValues={initialState.config}
         onSubmit={(config) => {
-          clockDispatch({ type: 'updateConfig', config });
+          if (confirm('Are you sure? Clock will be reset.')) {
+            clockDispatch({ type: 'updateConfig', config });
+            clockDispatch({ type: 'reset' });
+          }
         }}
       >
         {({ /* isSubmitting */ }) => (
@@ -40,7 +43,6 @@ export default function ClockSettings() {
             </div>
 
             <button type='submit' className='btn btn-secondary'>Update Settings</button>
-            <span>Time control settings will be updated on reset.</span>
           </Form>
         )}
       </Formik>
