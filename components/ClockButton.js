@@ -3,10 +3,11 @@ import { ClockContext } from '@/hooks/clockState';
 
 export default function ClockButton({ id }) {
   const { clockState, clockDispatch } = useContext(ClockContext);
-  const { initialTime, byo, byoRounds } = clockState.state.clocks[id];
-  console.log('id', id);
+  const { initialTime, byo, byoRounds } = clockState.state['clock'+id];
   return (
-    <button>
+    <button onClick={() => {
+      clockDispatch({ type: 'pressClock', clock: id });
+    }}>
       { '' + initialTime + ' + ' + byo + ' * ' + byoRounds }
     </button>
   );
