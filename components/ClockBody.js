@@ -1,9 +1,11 @@
 import { useContext } from 'react';
-import { ClockContext } from '@/hooks/clockState';
+import { ClockConfigContext } from '@/hooks/clockConfig';
+import { ClockStateContext } from '@/hooks/clockState';
 import ClockButton from '@/components/ClockButton';
 
 export default function ClockBody() {
-  const { clockState, clockDispatch } = useContext(ClockContext);
+  const { clockConfig } = useContext(ClockConfigContext);
+  const { clockState, clockDispatch } = useContext(ClockStateContext);
 
   return (
     <div>
@@ -14,7 +16,7 @@ export default function ClockBody() {
       <div>
         <button onClick={() => {
           if (confirm('Are you sure?')) {
-            clockDispatch({type: 'reset'})
+            clockDispatch({type: 'reset', config: clockConfig})
           }
         }}>
           Reset

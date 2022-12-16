@@ -1,18 +1,18 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useContext } from 'react';
-import { ClockContext, initialState } from '@/hooks/clockState';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { ClockConfigContext } from '@/hooks/clockConfig';
+import { initialConfig } from '@/hooks/clockConfig';
 
-export default function ClockSettings() {
-  const { clockState, clockDispatch } = useContext(ClockContext);
-
+export default function ClockSettings({ clockDispatch }) {
+  const { clockConfig, setClockConfig } = useContext(ClockConfigContext);
   return (
     <div>
       <Formik
-        initialValues={initialState.config}
+        initialValues={initialConfig}
         onSubmit={(config) => {
           if (confirm('Are you sure? Clock will be reset.')) {
-            clockDispatch({ type: 'updateConfig', config });
-            clockDispatch({ type: 'reset' });
+            setClockConfig(config);
+            clockDispatch({ type: 'reset', config });
           }
         }}
       >
