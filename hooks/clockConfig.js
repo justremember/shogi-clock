@@ -6,8 +6,6 @@ export const initialConfig = {
   byoRounds: 1
 }
 
-export const ClockConfigContext = createContext();
-
 export function useClockConfig() {
   return useState(initialConfig);
 }

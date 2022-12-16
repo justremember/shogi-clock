@@ -3,8 +3,6 @@ import { initialConfig } from '@/hooks/clockConfig';
 
 export const FPS = 60;
 
-export const ClockStateContext = createContext();
-
 const setStateFromConfig = (config) => {
   return {
     clock0: {

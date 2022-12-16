@@ -1,17 +1,22 @@
 import { useContext } from 'react';
-import { ClockConfigContext } from '@/hooks/clockConfig';
 import { ClockStateContext } from '@/hooks/clockState';
 import ClockButton from '@/components/ClockButton';
 
-export default function ClockBody() {
-  const { clockConfig } = useContext(ClockConfigContext);
-  const { clockState, clockDispatch } = useContext(ClockStateContext);
+export default function ClockBody({ clockConfig, clockState, clockDispatch }) {
 
   return (
     <div>
       <div>
-        <ClockButton id={0} />
-        <ClockButton id={1} />
+        <ClockButton
+          clockState={clockState}
+          clockDispatch={clockDispatch}
+          id={0}
+        />
+        <ClockButton
+          clockState={clockState}
+          clockDispatch={clockDispatch}
+          id={1}
+        />
       </div>
       <div>
         <button onClick={() => {

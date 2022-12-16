@@ -1,8 +1,6 @@
 import { useContext } from 'react';
-import { ClockStateContext } from '@/hooks/clockState';
 
-export default function ClockButton({ id }) {
-  const { clockState, clockDispatch } = useContext(ClockStateContext);
+export default function ClockButton({ id, clockState, clockDispatch }) {
   const { initialTime, byo, byoRounds } = clockState['clock'+id];
   return (
     <button onClick={() => {
