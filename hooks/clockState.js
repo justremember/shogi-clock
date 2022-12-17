@@ -16,7 +16,7 @@ const setStateFromConfig = (config) => {
       byoRounds: config.byoRounds,
     },
     activeClock: null,
-    stopped: false
+    paused: false
   };
 }
 
@@ -26,7 +26,7 @@ const reducer = (state, action) => {
       return setStateFromConfig(action.config);
     case 'pressClock':
       if (
-        state.stopped
+        state.paused
         || (action.clock !== 0 && action.clock !== 1)
       ) {
         return state;
@@ -57,6 +57,12 @@ const reducer = (state, action) => {
         ),
         lastTick: currTick
       }
+    case 'togglePause':
+      return {
+        ...state,
+        paused: !state.paused,
+        lastTick: new Date().getTime()
+      }
     default:
       console.log('unrecognized action type:', action.type);
       return state;
@@ -69,7 +75,7 @@ export function useClockState() {
   useEffect(() => {
     let intervalId;
     if (
-      !state.stopped
+      !state.paused
     ) {
       intervalId = setInterval(() => {
         dispatch({ type: 'tick' });
@@ -82,7 +88,7 @@ export function useClockState() {
         console.log('interval cleared', intervalId);
       }
     }
-  }, [state.stopped]);
+  }, [state.paused]);
 
   return [state, dispatch];
 }

@@ -20,6 +20,11 @@ export default function ClockBody({ clockConfig, clockState, clockDispatch }) {
       </div>
       <div>
         <button onClick={() => {
+          clockDispatch({type: 'togglePause', config: clockConfig})
+        }}>
+          {clockState.paused ? 'Resume' : 'Pause'}
+        </button>
+        <button onClick={() => {
           if (confirm('Are you sure?')) {
             clockDispatch({type: 'reset', config: clockConfig})
           }
