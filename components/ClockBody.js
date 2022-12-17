@@ -8,11 +8,13 @@ export default function ClockBody({ clockConfig, clockState, clockDispatch }) {
     <div>
       <div>
         <ClockButton
+          clockConfig={clockConfig}
           clockState={clockState}
           clockDispatch={clockDispatch}
           id={0}
         />
         <ClockButton
+          clockConfig={clockConfig}
           clockState={clockState}
           clockDispatch={clockDispatch}
           id={1}
