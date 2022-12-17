@@ -20,35 +20,51 @@ const setStateFromConfig = (config) => {
   };
 }
 
+const tickClock = (clock, delta) => {
+  return {
+    ...clock,
+    initialTime: clock.initialTime - delta
+  }
+}
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'reset':
       return setStateFromConfig(action.config);
-    case 'pressClock':
+    case 'pressClock': {
+      const otherClock = action.clock === 1 ? 0 : 1;
       if (
         state.paused
         || (action.clock !== 0 && action.clock !== 1)
+        || (otherClock === state.activeClock)
       ) {
         return state;
       }
-      const otherClock = action.clock === 1 ? 0 : 1;
+      const currTick = new Date().getTime();
+      if (state.activeClock === null) {
+        console.log('activeclock was null');
+        return {
+          ...state,
+          activeClock: otherClock,
+          lastTick: currTick
+        }
+      }
       return {
         ...state,
         activeClock: otherClock,
-        lastTick: new Date().getTime()
-      }
-    case 'tick':
+        ['clock' + action.clock]: tickClock(
+          state['clock' + action.clock],
+          currTick - state.lastTick
+        ),
+        lastTick: currTick
+      };
+    }
+    case 'tick': {
       const activeClock = state.activeClock;
       if (activeClock !== 0 && activeClock !== 1) {
         return state;
       }
       const currTick = new Date().getTime();
-      const tickClock = (clock, delta) => {
-        return {
-          ...clock,
-          initialTime: clock.initialTime - delta
-        }
-      }
       return {
         ...state,
         ['clock' + activeClock]: tickClock(
@@ -56,13 +72,14 @@ const reducer = (state, action) => {
           currTick - state.lastTick
         ),
         lastTick: currTick
-      }
+      };
+    }
     case 'togglePause':
       return {
         ...state,
         paused: !state.paused,
         lastTick: new Date().getTime()
-      }
+      };
     default:
       console.log('unrecognized action type:', action.type);
       return state;
