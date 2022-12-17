@@ -13,7 +13,7 @@ function msToHuman(ms) {
   function msToSm(ms) {
     return (ms / 1000).toFixed(2).padStart(5, '0');
   }
-  if (ms >= 10000) return msToHMS(ms);
+  if (ms > 10000) return msToHMS(ms);
   else return msToSm(ms);
 }
 

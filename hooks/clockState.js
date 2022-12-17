@@ -7,11 +7,13 @@ const setStateFromConfig = (config) => {
   return {
     clock0: {
       initialTime: config.initialTime,
+      configByo: config.byo,
       byo: config.byo,
       byoRounds: config.byoRounds,
     },
     clock1: {
       initialTime: config.initialTime,
+      configByo: config.byo,
       byo: config.byo,
       byoRounds: config.byoRounds,
     },
@@ -20,10 +22,36 @@ const setStateFromConfig = (config) => {
   };
 }
 
-const tickClock = (clock, delta) => {
+const tickClock = (clock, delta, isClockPress) => {
+  const consumeBoth = (a, b) => {
+    // subtracts both a & b by either a or b, whichever is smaller so as to not return a negative value
+    if (a > b) {
+      return [a - b, 0];
+    } else {
+      return [0, b - a];
+    }
+  }
+  let [initialTime, d] = consumeBoth(clock.initialTime, delta);
+  if (d <= 0) {
+    return { ... clock, initialTime };
+  }
+  let byo = clock.byo - d;
+  let byoRounds = clock.byoRounds;
+  if (byo <= 0) {
+    byo += clock.configByo;
+    byoRounds--;
+  }
+  if (byoRounds < 1) { // time has run out
+    byo = 0;
+    byoRounds = 0;
+  } else if (isClockPress) {
+    byo = clock.configByo;
+  }
   return {
     ...clock,
-    initialTime: clock.initialTime - delta
+    initialTime,
+    byo,
+    byoRounds,
   }
 }
 
@@ -42,7 +70,6 @@ const reducer = (state, action) => {
       }
       const currTick = new Date().getTime();
       if (state.activeClock === null) {
-        console.log('activeclock was null');
         return {
           ...state,
           activeClock: otherClock,
@@ -54,7 +81,8 @@ const reducer = (state, action) => {
         activeClock: otherClock,
         ['clock' + action.clock]: tickClock(
           state['clock' + action.clock],
-          currTick - state.lastTick
+          currTick - state.lastTick,
+          true
         ),
         lastTick: currTick
       };
