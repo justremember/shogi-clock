@@ -17,25 +17,19 @@ const setStateFromConfig = (config) => {
       byo: config.byo,
       byoRounds: config.byoRounds,
     },
-    activeClock: null,
+    activeClock: null, // 0, 1, or null
     paused: false
   };
 }
 
 const tickClock = (clock, delta, isClockPress) => {
-  const consumeBoth = (a, b) => {
-    // subtracts both a & b by either a or b, whichever is smaller so as to not return a negative value
-    if (a > b) {
-      return [a - b, 0];
-    } else {
-      return [0, b - a];
-    }
-  }
-  let [initialTime, d] = consumeBoth(clock.initialTime, delta);
-  if (d <= 0) {
+  let initialTime = clock.initialTime - delta;
+  if (initialTime >= 0) {
     return { ... clock, initialTime };
   }
-  let byo = clock.byo - d;
+  let remainingDelta = -initialTime;
+  initialTime = 0;
+  let byo = clock.byo - remainingDelta;
   let byoRounds = clock.byoRounds;
   if (byo <= 0) {
     byo += clock.configByo;
@@ -44,7 +38,7 @@ const tickClock = (clock, delta, isClockPress) => {
   if (byoRounds < 1) { // time has run out
     byo = 0;
     byoRounds = 0;
-  } else if (isClockPress) {
+  } else if (isClockPress) { // tick was triggered by clock press, so reset byoyomi
     byo = clock.configByo;
   }
   return {
@@ -55,16 +49,24 @@ const tickClock = (clock, delta, isClockPress) => {
   }
 }
 
+export const isTimeout = (timeState) => {
+  return (
+    timeState.initialTime <= 0
+    && timeState.byoRounds <= 0
+  );
+}
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'reset':
       return setStateFromConfig(action.config);
     case 'pressClock': {
-      const otherClock = action.clock === 1 ? 0 : 1;
+      const otherClock = (action.clock + 1) % 2;
       if (
         state.paused
         || (action.clock !== 0 && action.clock !== 1)
         || (otherClock === state.activeClock)
+        || isTimeout(state['clock' + action.clock])
       ) {
         return state;
       }
@@ -89,7 +91,9 @@ const reducer = (state, action) => {
     }
     case 'tick': {
       const activeClock = state.activeClock;
-      if (activeClock !== 0 && activeClock !== 1) {
+      if (
+        (activeClock !== 0 && activeClock !== 1)
+      ) {
         return state;
       }
       const currTick = new Date().getTime();

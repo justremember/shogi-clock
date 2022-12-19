@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { isTimeout } from '@/hooks/clockState';
 
 function msToHuman(ms) {
   function pad(num) {
@@ -13,12 +14,15 @@ function msToHuman(ms) {
   function msToSm(ms) {
     return (ms / 1000).toFixed(2).padStart(5, '0');
   }
-  if (ms > 10000) return msToHMS(ms);
-  else return msToSm(ms);
+  return ms >= 10000 ? msToHMS(ms) : msToSm(ms)
 }
 
-function timeStateToHuman(timeState, clockConfig) {
-  return `${msToHuman(timeState.initialTime)} + ${msToHuman(timeState.byo)} * ${timeState.byoRounds}`;
+function timeStateToHuman(timeState, clockConfig, id) {
+  return (
+    <div className={ isTimeout(timeState) ? 'text-danger' : ''}>
+      {`${msToHuman(timeState.initialTime)} + ${msToHuman(timeState.byo)} * ${timeState.byoRounds}`}
+    </div>
+  )
 }
 
 export default function ClockButton({ id, clockConfig, clockState, clockDispatch }) {
@@ -27,7 +31,7 @@ export default function ClockButton({ id, clockConfig, clockState, clockDispatch
     <button className="w-50 p-3" onClick={() => {
       clockDispatch({ type: 'pressClock', clock: id });
     }}>
-      { timeStateToHuman(clockState['clock'+id], clockConfig) }
+      { timeStateToHuman(clockState['clock'+id], clockConfig, id) }
     </button>
   );
 }
