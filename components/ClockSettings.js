@@ -1,8 +1,7 @@
 import { useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {
-  initialConfig,
-  configToFormValues,
+  initialFormValues,
   computeTotalByoPeriods,
   formValuesToConfig
 } from '@/hooks/clockConfig';
@@ -12,16 +11,16 @@ function HMSField({ name, hms }) {
     <div className='col'>
       <div className='form-floating'>
         <Field
-          id={`${name}${hms[0]}-id`} // hms[0] is either 'H', 'M', or 'S'
+          id={`${name}.${hms[0]}-id`} // hms[0] is either 'h', 'm', or 's'
           type='number'
-          name={`${name}${hms[0]}`}
+          name={`${name}.${hms[0]}`}
           className='form-control'
           placeholder='0'
         />
-        <label htmlFor={`${name}${hms[0]}-id`}>
+        <label htmlFor={`${name}.${hms[0]}-id`}>
           {hms}
         </label>
-        <ErrorMessage name={`${name}`} />
+        <ErrorMessage name={`${name}.${hms[0]}`} />
       </div>
     </div>
   )
@@ -34,20 +33,20 @@ function DurationField({ name, labelName }) {
         <label>
           {labelName}
         </label>
-        <HMSField name={name} hms='Hours' />
-        <HMSField name={name} hms='Minutes' />
-        <HMSField name={name} hms='Seconds' />
+        <HMSField name={name} hms='hours' />
+        <HMSField name={name} hms='minutes' />
+        <HMSField name={name} hms='seconds' />
       </div>
     </>
   )
 }
 
-export default function ClockSettings({ clockConfig, setClockConfig, clockDispatch }) {
-  console.log('clocksettings', configToFormValues(initialConfig));
+export default function ClockSettings({ setClockConfig, clockDispatch }) {
+  // console.log('clocksettings', configToFormValues(initialConfig));
   return (
     <div>
       <Formik
-        initialValues={configToFormValues(initialConfig)}
+        initialValues={initialFormValues}
         onSubmit={(values) => {
           if (confirm('Are you sure? Clock will be reset.')) {
             console.log(values);
@@ -83,17 +82,14 @@ export default function ClockSettings({ clockConfig, setClockConfig, clockDispat
             </div>
             { values.clockMode === 'normalMode' && (
               <>
-                <label htmlFor='initialTime-id'>
-                  Initial Time
-                </label>
-                <Field id='initialTime-id' type='number' name='initialTime' className='form-control' />
-                <ErrorMessage name='initialTime' />
-
-                <label htmlFor='byo-id'>
-                  Byoyomi
-                </label>
-                <Field id='byo-id' type='number' name='byo' className='form-control' />
-                <ErrorMessage name='byo' />
+                <DurationField
+                  name='initialTime'
+                  labelName='Initial Time'
+                />
+                <DurationField
+                  name='byo'
+                  labelName='Byoyomi'
+                />
 
                 <label htmlFor='byoPeriods-id'>
                   Byoyomi Periods

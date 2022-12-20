@@ -1,5 +1,5 @@
 import { createContext, useReducer, useEffect } from 'react';
-import { initialConfig } from '@/hooks/clockConfig';
+import { initialFormValues, formValuesToConfig } from '@/hooks/clockConfig';
 
 export const FPS = 60;
 
@@ -119,7 +119,7 @@ const reducer = (state, action) => {
 }
 
 export function useClockState() {
-  const [state, dispatch] = useReducer(reducer, initialConfig, setStateFromConfig);
+  const [state, dispatch] = useReducer(reducer, formValuesToConfig(initialFormValues), setStateFromConfig);
 
   useEffect(() => {
     let intervalId;
