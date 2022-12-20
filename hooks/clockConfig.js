@@ -53,14 +53,16 @@ export function validateFormValues(values) {
     if (!Number.isInteger(hms.h) || hms.h < 0 || hms.h > 99) errors.h = 'Hours must be between 0 and 99';
     if (!Number.isInteger(hms.m) || hms.m < 0 || hms.m > 59) errors.m = 'Minutes must be between 0 and 59';
     if (!Number.isInteger(hms.s) || hms.s < 0 || hms.s > 59) errors.s = 'Seconds must be between 0 and 59';
-    return errors;
+    if (Object.keys(errors).length) return errors;
+    else return undefined;
   }
-  const errors = {general: []};
+  const errors = {};
+  let v;
   switch (values.clockMode) {
     case 'normalMode':
       // basic validation of HMS values
-      errors.initialTime = validateHms(values.initialTime);
-      errors.byo = validateHms(values.byo);
+      if (v = validateHms(values.initialTime)) errors.initialTime = v;
+      if (v = validateHms(values.byo)) errors.byo = v;
       // basic integer validation of byo periods
       if (!Number.isInteger(values.byoPeriods) || values.byoPeriods < 0 || values.byoPeriods > 10000) {
         errors.byoPeriods = 'Byoyomi periods must be between 0 and 10000';
@@ -76,8 +78,8 @@ export function validateFormValues(values) {
       break;
     case 'tournamentMode':
       // basic validation of HMS values
-      errors.totalTime = validateHms(values.totalTime);
-      errors.timePerByoPeriod = validateHms(values.timePerByoPeriod);
+      if (v = validateHms(values.totalTime)) errors.totalTime = v;
+      if (v = validateHms(values.timePerByoPeriod)) errors.timePerByoPeriod = v;
       // if the time per byoyomi period does not evenly divide the total time
       if (computeMs(values.totalTime) % computeMs(values.timePerByoPeriod) !== 0) {
         errors.totalByoPeriods = 'Total Time must be evenly divisible by the time per byoyomi period';
@@ -90,5 +92,6 @@ export function validateFormValues(values) {
     default:
       errors.clockMode = 'Invalid clock mode';
   }
+  console.log(errors);
   return errors;
 }
