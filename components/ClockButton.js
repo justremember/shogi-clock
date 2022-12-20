@@ -20,7 +20,11 @@ function msToHuman(ms) {
 function timeStateToHuman(timeState, clockConfig, id) {
   return (
     <div className={ isTimeout(timeState) ? 'text-danger' : ''}>
-      {`${msToHuman(timeState.initialTime)} + ${msToHuman(timeState.byo)} * ${timeState.byoPeriods}`}
+      {
+        clockConfig.clockMode === 'tournamentMode' ?
+          `${msToHuman(clockConfig.byo * (timeState.byoPeriods - 1) + timeState.byo)}`
+        : `${msToHuman(timeState.initialTime)} + ${msToHuman(timeState.byo)} * ${timeState.byoPeriods}`
+      }
     </div>
   )
 }
