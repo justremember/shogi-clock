@@ -3,7 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {
   initialFormValues,
   computeTotalByoPeriods,
-  formValuesToConfig
+  validateTotalByoPeriods,
+  formValuesToConfig,
+  computeMs,
+  validateFormValues
 } from '@/hooks/clockConfig';
 
 function HMSField({ name, hms }) {
@@ -47,6 +50,7 @@ export default function ClockSettings({ setClockConfig, clockDispatch }) {
     <div>
       <Formik
         initialValues={initialFormValues}
+        validate={validateFormValues}
         onSubmit={(values) => {
           if (confirm('Are you sure? Clock will be reset.')) {
             console.log(values);
@@ -56,7 +60,7 @@ export default function ClockSettings({ setClockConfig, clockDispatch }) {
           }
         }}
       >
-        {({ values }) => (
+        {({ values, errors }) => (
           <Form>
             <div className='form-check'>
               <label className='form-check-label'>
@@ -108,13 +112,20 @@ export default function ClockSettings({ setClockConfig, clockDispatch }) {
                   name='timePerByoPeriod'
                   labelName='Time Per Byoyomi Period'
                 />
-                <div>
-                  {`Total Byoyomi Periods: ${computeTotalByoPeriods(values)}`}
-                </div>
+                { errors.totalByoPeriods ?
+                  <div>
+                    {`Error: ${errors.totalByoPeriods}`}
+                  </div>
+                  :
+                  <div>
+                    {`Total Byoyomi Periods: ${computeTotalByoPeriods(values)}`}
+                  </div>
+                }
               </>
             )}
-
-            <button type='submit' className='btn btn-secondary'>Update Settings</button>
+            <div>
+              <button type='submit' className='btn btn-secondary'>Update Settings</button>
+            </div>
           </Form>
         )}
       </Formik>
