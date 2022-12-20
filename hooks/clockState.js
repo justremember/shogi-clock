@@ -9,13 +9,13 @@ const setStateFromConfig = (config) => {
       initialTime: config.initialTime,
       configByo: config.byo,
       byo: config.byo,
-      byoRounds: config.byoRounds,
+      byoPeriods: config.byoPeriods,
     },
     clock1: {
       initialTime: config.initialTime,
       configByo: config.byo,
       byo: config.byo,
-      byoRounds: config.byoRounds,
+      byoPeriods: config.byoPeriods,
     },
     activeClock: null, // 0, 1, or null
     paused: false
@@ -30,14 +30,14 @@ const tickClock = (clock, delta, isClockPress) => {
   let remainingDelta = -initialTime;
   initialTime = 0;
   let byo = clock.byo - remainingDelta;
-  let byoRounds = clock.byoRounds;
+  let byoPeriods = clock.byoPeriods;
   if (byo <= 0) {
     byo += clock.configByo;
-    byoRounds--;
+    byoPeriods--;
   }
-  if (byoRounds < 1) { // time has run out
+  if (byoPeriods < 1) { // time has run out
     byo = 0;
-    byoRounds = 0;
+    byoPeriods = 0;
   } else if (isClockPress) { // tick was triggered by clock press, so reset byoyomi
     byo = clock.configByo;
   }
@@ -45,14 +45,14 @@ const tickClock = (clock, delta, isClockPress) => {
     ...clock,
     initialTime,
     byo,
-    byoRounds,
+    byoPeriods,
   }
 }
 
 export const isTimeout = (timeState) => {
   return (
     timeState.initialTime <= 0
-    && timeState.byoRounds <= 0
+    && timeState.byoPeriods <= 0
   );
 }
 

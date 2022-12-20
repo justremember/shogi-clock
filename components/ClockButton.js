@@ -20,13 +20,13 @@ function msToHuman(ms) {
 function timeStateToHuman(timeState, clockConfig, id) {
   return (
     <div className={ isTimeout(timeState) ? 'text-danger' : ''}>
-      {`${msToHuman(timeState.initialTime)} + ${msToHuman(timeState.byo)} * ${timeState.byoRounds}`}
+      {`${msToHuman(timeState.initialTime)} + ${msToHuman(timeState.byo)} * ${timeState.byoPeriods}`}
     </div>
   )
 }
 
 export default function ClockButton({ id, clockConfig, clockState, clockDispatch }) {
-  const { initialTime, byo, byoRounds } = clockState['clock'+id];
+  const { initialTime, byo, byoPeriods } = clockState['clock'+id];
   return (
     <button className="w-50 p-3" onClick={() => {
       clockDispatch({ type: 'pressClock', clock: id });
