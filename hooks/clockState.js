@@ -24,7 +24,7 @@ const setStateFromConfig = (config) => {
 
 const tickClock = (clock, delta, isClockPress) => {
   let initialTime = clock.initialTime - delta;
-  if (initialTime >= 0) {
+  if (initialTime >= 0) { // if initialTime hasn't run out yet (or became zero at this exact moment)
     return { ... clock, initialTime };
   }
   let remainingDelta = -initialTime;

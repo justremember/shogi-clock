@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {
   initialFormValues,
@@ -46,89 +46,97 @@ function DurationField({ name, labelName }) {
 
 export default function ClockSettings({ setClockConfig, clockDispatch }) {
   // console.log('clocksettings', configToFormValues(initialConfig));
+  //
+  const [showSettings, setShowSettings] = useState(true);
   return (
     <div>
-      <Formik
-        initialValues={initialFormValues}
-        validate={validateFormValues}
-        onSubmit={(values) => {
-          if (confirm('Are you sure? Clock will be reset.')) {
-            console.log(values);
-            const config = formValuesToConfig(values);
-            setClockConfig(config);
-            clockDispatch({ type: 'reset', config });
-          }
-        }}
-      >
-        {({ values, errors }) => (
-          <Form>
-            <div className='form-check'>
-              <label className='form-check-label'>
-                <Field
-                  className='form-check-input'
-                  type='radio'
-                  name='clockMode'
-                  value='normalMode'
-                />
-                Normal Mode
-              </label>
-            </div>
-            <div className='form-check'>
-              <label className='form-check-label'>
-                <Field
-                  className='form-check-input'
-                  type='radio'
-                  name='clockMode'
-                  value='tournamentMode'
-                />
-                Tournament Mode
-              </label>
-            </div>
-            { values.clockMode === 'normalMode' && (
-              <>
-                <DurationField
-                  name='initialTime'
-                  labelName='Initial Time'
-                />
-                <DurationField
-                  name='byo'
-                  labelName='Byoyomi'
-                />
-
-                <label htmlFor='byoPeriods-id'>
-                  Byoyomi Periods
+      { showSettings &&
+        <Formik
+          initialValues={initialFormValues}
+          validate={validateFormValues}
+          onSubmit={(values) => {
+            if (confirm('Are you sure? Clock will be reset.')) {
+              console.log(values);
+              const config = formValuesToConfig(values);
+              setClockConfig(config);
+              clockDispatch({ type: 'reset', config });
+              setShowSettings(false);
+            }
+          }}
+        >
+          {({ values, errors }) => (
+            <Form>
+              <div className='form-check'>
+                <label className='form-check-label'>
+                  <Field
+                    className='form-check-input'
+                    type='radio'
+                    name='clockMode'
+                    value='normalMode'
+                  />
+                  Normal Mode
                 </label>
-                <Field id='byoPeriods-id' type='number' name='byoPeriods' className='form-control' />
-                <ErrorMessage name='byoPeriods' />
-              </>
-            )}
-            { values.clockMode === 'tournamentMode' && (
-              <>
-                <DurationField
-                  name='totalTime'
-                  labelName='Total Time'
-                />
-                <DurationField
-                  name='timePerByoPeriod'
-                  labelName='Time Per Byoyomi Period'
-                />
-                { errors.totalByoPeriods ?
-                  <div>
-                    {`Error: ${errors.totalByoPeriods}`}
-                  </div>
-                  :
-                  <div>
-                    {`Total Byoyomi Periods: ${computeTotalByoPeriods(values)}`}
-                  </div>
-                }
-              </>
-            )}
-            <div>
-              <button type='submit' className='btn btn-secondary'>Update Settings</button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+              </div>
+              <div className='form-check'>
+                <label className='form-check-label'>
+                  <Field
+                    className='form-check-input'
+                    type='radio'
+                    name='clockMode'
+                    value='tournamentMode'
+                  />
+                  Tournament Mode
+                </label>
+              </div>
+              { values.clockMode === 'normalMode' && (
+                <>
+                  <DurationField
+                    name='initialTime'
+                    labelName='Initial Time'
+                  />
+                  <DurationField
+                    name='byo'
+                    labelName='Byoyomi'
+                  />
+
+                  <label htmlFor='byoPeriods-id'>
+                    Byoyomi Periods
+                  </label>
+                  <Field id='byoPeriods-id' type='number' name='byoPeriods' className='form-control' />
+                  <ErrorMessage name='byoPeriods' />
+                </>
+              )}
+              { values.clockMode === 'tournamentMode' && (
+                <>
+                  <DurationField
+                    name='totalTime'
+                    labelName='Total Time'
+                  />
+                  <DurationField
+                    name='timePerByoPeriod'
+                    labelName='Time Per Byoyomi Period'
+                  />
+                  { errors.totalByoPeriods ?
+                    <div>
+                      {`Error: ${errors.totalByoPeriods}`}
+                    </div>
+                    :
+                    <div>
+                      {`Total Byoyomi Periods: ${computeTotalByoPeriods(values)}`}
+                    </div>
+                  }
+                </>
+              )}
+              <div>
+                <button type='submit' className='btn btn-secondary'>Update Settings</button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      }
+      <div>
+        <button type='submit' onClick={() => setShowSettings(v => !v)}>{`${showSettings ? 'Hide' : 'Show'} settings`}</button>
+      </div>
     </div>
   );
 }
