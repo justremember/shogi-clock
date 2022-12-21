@@ -20,10 +20,6 @@ export const computeTotalByoPeriods = (formValues) => {
   return computeMs(formValues.totalTime) / computeMs(formValues.timePerByoPeriod);
 }
 
-export const validateTotalByoPeriods = (formValues) => {
-  return computeMs(formValues.totalTime) % computeMs(formValues.timePerByoPeriod) !== 0;
-}
-
 export const formValuesToConfig = (formValues) => {
   switch (formValues.clockMode) {
     case 'normalMode':

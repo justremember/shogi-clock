@@ -44,12 +44,28 @@ function DurationField({ name, labelName }) {
   )
 }
 
-export default function ClockSettings({ setClockConfig, clockDispatch }) {
+export default function ClockSettings({ clockConfig, setClockConfig, clockState, clockDispatch }) {
   // console.log('clocksettings', configToFormValues(initialConfig));
   //
   const [showSettings, setShowSettings] = useState(true);
   return (
     <div>
+      <div>
+        {/* Pause button */}
+        <button onClick={() => {
+          clockDispatch({type: 'togglePause', config: clockConfig})
+        }}>
+          {clockState.paused ? 'Resume' : 'Pause'}
+        </button>
+        {/* Reset button */}
+        <button onClick={() => {
+          if (confirm('Are you sure?')) {
+            clockDispatch({type: 'reset', config: clockConfig})
+          }
+        }}>
+          Reset
+        </button>
+      </div>
       { showSettings &&
         <Formik
           initialValues={initialFormValues}

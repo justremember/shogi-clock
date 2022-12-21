@@ -9,7 +9,9 @@ export default function Clock() {
   return (
     <div>
       <ClockSettings
+        clockConfig={clockConfig}
         setClockConfig={setClockConfig}
+        clockState={clockState}
         clockDispatch={clockDispatch}
       />
       <ClockBody

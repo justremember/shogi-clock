@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { isTimeout } from '@/hooks/clockState';
 
 function msToHuman(ms) {
