@@ -24,7 +24,7 @@ export default function ClockShowButton({ showSettings, setShowSettings }) {
     <div>
       {showSettings ?
           <button id='show-settings-button' className='btn btn-outline-primary' onClick={() => setShowSettings(false)}>
-            Click to hide settings
+            Hide settings
           </button>
         : <ShowButton {...{ showSettings, setShowSettings}} />
       }
