@@ -5,9 +5,6 @@ import Clock from '@/components/Clock';
 
 export default function Home() {
   return (
-    <div>
-      <h1>Shogi Clock</h1>
-      <Clock />
-    </div>
+    <Clock />
   );
 }

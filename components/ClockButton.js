@@ -31,7 +31,7 @@ function timeStateToHuman(timeState, clockConfig, id) {
 export default function ClockButton({ id, clockConfig, clockState, clockDispatch }) {
   const { initialTime, byo, byoPeriods } = clockState['clock'+id];
   return (
-    <button className="w-50 p-3" onClick={() => {
+    <button id='clock-button' className="w-50 p-3" onClick={() => {
       clockDispatch({ type: 'pressClock', clock: id });
     }}>
       { timeStateToHuman(clockState['clock'+id], clockConfig, id) }

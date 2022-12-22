@@ -1,11 +1,11 @@
 import { createContext, useState } from 'react';
 
 export const initialFormValues = {
-  clockMode: 'tournamentMode', // normalMode or TournamentMode
+  clockMode: 'normalMode', // normalMode or TournamentMode
   // normalMode form values
   initialTime: { h: 0, m: 5, s: 0 },
-  byo: { h: 0, m: 0, s: 10 },
-  byoPeriods: 6,
+  byo: { h: 0, m: 0, s: 30 },
+  byoPeriods: 1,
   // tournamentMode form values
   totalTime: { h: 3, m: 0, s: 0 },
   timePerByoPeriod: { h: 0, m: 1, s: 0 }
@@ -61,11 +61,11 @@ export function validateFormValues(values) {
       if (v = validateHms(values.byo)) errors.byo = v;
       // basic integer validation of byo periods
       if (!Number.isInteger(values.byoPeriods) || values.byoPeriods < 0 || values.byoPeriods > 10000) {
-        errors.byoPeriods = 'Byoyomi periods must be between 0 and 10000';
+        errors.byoPeriods = 'Byoyomi Periods must be between 0 and 10000';
       }
       // if either one but not both fields are zero
       if ((computeMs(values.byo) === 0) !== (values.byoPeriods === 0)) {
-        errors.byoPeriods = 'Byoyomi & Byoyomi periods must either be both non-zero, or be both zero';
+        errors.byoPeriods = 'Byoyomi & Byoyomi Periods must either be both non-zero, or be both zero';
       }
       // if all fields are zero
       if (computeMs(values.initialTime) === 0 && computeMs(values.byo) === 0 && values.byoPeriods === 0) {
