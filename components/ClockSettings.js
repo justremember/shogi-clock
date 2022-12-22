@@ -8,6 +8,8 @@ import {
   computeMs,
   validateFormValues
 } from '@/hooks/clockConfig';
+import ClockTutorial from '@/components/ClockTutorial';
+import ClockShowButton from '@/components/ClockShowButton';
 
 function HMSField({ name, hms, errors }) {
   return (
@@ -73,117 +75,115 @@ export default function ClockSettings({ clockConfig, setClockConfig, clockState,
               <button className='btn btn-warning' onClick={() => {
                 if (confirm('Are you sure?')) {
                   clockDispatch({type: 'reset', config: clockConfig})
+                  setShowSettings(false);
                 }
               }}>
                 Reset
               </button>
             </div>
-            <div>
-              <h2>Settings</h2>
-              <Formik
-                initialValues={initialFormValues}
-                validate={validateFormValues}
-                onSubmit={(values) => {
-                  if (confirm('Are you sure? Clock will be reset.')) {
-                    console.log(values);
-                    const config = formValuesToConfig(values);
-                    setClockConfig(config);
-                    clockDispatch({ type: 'reset', config });
-                    setShowSettings(false);
-                  }
-                }}
-              >
-                {({ values, errors }) => (
-                  <Form>
-                    <div className='form-check'>
-                      <label className='form-check-label'>
-                        <Field
-                          className='form-check-input'
-                          type='radio'
-                          name='clockMode'
-                          value='normalMode'
-                        />
-                        Normal Mode
-                      </label>
-                    </div>
-                    <div className='form-check'>
-                      <label className='form-check-label'>
-                        <Field
-                          className='form-check-input'
-                          type='radio'
-                          name='clockMode'
-                          value='tournamentMode'
-                        />
-                        Tournament Mode
-                      </label>
-                    </div>
-                    { values.clockMode === 'normalMode' && (
-                      <>
-                        <DurationField
-                          name='initialTime'
-                          labelName='Initial Time'
-                          errors={errors}
-                        />
-                        <DurationField
-                          name='byo'
-                          labelName='Byoyomi'
-                          errors={errors}
-                        />
+            <h2>Settings</h2>
+            <Formik
+              initialValues={initialFormValues}
+              validate={validateFormValues}
+              onSubmit={(values) => {
+                if (confirm('Are you sure? Clock will be reset.')) {
+                  console.log(values);
+                  const config = formValuesToConfig(values);
+                  setClockConfig(config);
+                  clockDispatch({ type: 'reset', config });
+                  setShowSettings(false);
+                }
+              }}
+            >
+              {({ values, errors }) => (
+                <Form>
+                  <div className='form-check'>
+                    <label className='form-check-label'>
+                      <Field
+                        className='form-check-input'
+                        type='radio'
+                        name='clockMode'
+                        value='normalMode'
+                      />
+                      Normal Mode
+                    </label>
+                  </div>
+                  <div className='form-check'>
+                    <label className='form-check-label'>
+                      <Field
+                        className='form-check-input'
+                        type='radio'
+                        name='clockMode'
+                        value='tournamentMode'
+                      />
+                      Tournament Mode
+                    </label>
+                  </div>
+                  { values.clockMode === 'normalMode' && (
+                    <>
+                      <DurationField
+                        name='initialTime'
+                        labelName='Initial Time'
+                        errors={errors}
+                      />
+                      <DurationField
+                        name='byo'
+                        labelName='Byoyomi'
+                        errors={errors}
+                      />
 
-                        <label htmlFor='byoPeriods-id'>
-                          Byoyomi Periods
-                        </label>
-                        <Field
-                          id='byoPeriods-id'
-                          type='number'
-                          name='byoPeriods'
-                          className={
-                            `form-control ${
-                              errors.byoPeriods
-                              && 'is-invalid'
-                            }`
-                          }
-                        />
-                        <div className='invalid-feedback'>
-                          <ErrorMessage name='byoPeriods' />
-                        </div>
-                      </>
-                    )}
-                    { values.clockMode === 'tournamentMode' && (
-                      <>
-                        <DurationField
-                          name='totalTime'
-                          labelName='Total Time'
-                          errors={errors}
-                        />
-                        <DurationField
-                          name='timePerByoPeriod'
-                          labelName='Time Per Byoyomi Period'
-                          errors={errors}
-                        />
-                        { errors.totalByoPeriods ?
-                          <div className='error-feedback'>
-                            {`Error: ${errors.totalByoPeriods}`}
-                          </div>
-                          :
-                          <div>
-                            {`Total Byoyomi Periods: ${computeTotalByoPeriods(values)}`}
-                          </div>
+                      <label htmlFor='byoPeriods-id'>
+                        Byoyomi Periods
+                      </label>
+                      <Field
+                        id='byoPeriods-id'
+                        type='number'
+                        name='byoPeriods'
+                        className={
+                          `form-control ${
+                            errors.byoPeriods
+                            && 'is-invalid'
+                          }`
                         }
-                      </>
-                    )}
-                    <div className='mt-2'>
-                      <button type='submit' className='btn btn-secondary'>Update Settings</button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </div>
+                      />
+                      <div className='invalid-feedback'>
+                        <ErrorMessage name='byoPeriods' />
+                      </div>
+                    </>
+                  )}
+                  { values.clockMode === 'tournamentMode' && (
+                    <>
+                      <DurationField
+                        name='totalTime'
+                        labelName='Total Time'
+                        errors={errors}
+                      />
+                      <DurationField
+                        name='timePerByoPeriod'
+                        labelName='Time Per Byoyomi Period'
+                        errors={errors}
+                      />
+                      { errors.totalByoPeriods ?
+                        <div className='error-feedback'>
+                          {`Error: ${errors.totalByoPeriods}`}
+                        </div>
+                        :
+                        <div>
+                          {`Total Byoyomi Periods: ${computeTotalByoPeriods(values)}`}
+                        </div>
+                      }
+                    </>
+                  )}
+                  <div className='mt-2'>
+                    <button type='submit' className='btn btn-secondary'>Update Settings</button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+            <ClockTutorial />
           </div>
         }
-        <button id='show-settings-button' className='btn btn-outline-primary' onClick={() => setShowSettings(v => !v)}>
-          {`${showSettings ? 'Hide' : 'Show'} settings`}
-        </button>
+        <ClockShowButton {...{ showSettings, setShowSettings}} />
       </div>
     </div>
   );
