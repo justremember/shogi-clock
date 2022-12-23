@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { PersistFormikValues } from 'formik-persist-values';
 import {
   initialFormValues,
   computeTotalByoPeriods,
@@ -177,6 +178,7 @@ export default function ClockSettings({ clockConfig, setClockConfig, clockState,
                   <div className='mt-2'>
                     <button type='submit' className='btn btn-secondary'>Update Settings</button>
                   </div>
+                  <PersistFormikValues name='clock-settings' />
                 </Form>
               )}
             </Formik>
