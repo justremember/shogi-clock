@@ -33,6 +33,43 @@
 
 
 
-#clock-button {
+.clock-button {
   height: 100vh;
+}
+
+
+.clock-button-initial-state {
+  background-color: #bcb;
+}
+
+.clock-button-active {
+  background-color: #ffb;
+}
+
+.clock-button-inactive {
+  background-color: #ddb;
+}
+
+.clock-button-initial-state:hover {
+  background-color: #cdc;
+}
+
+.clock-button-active:hover {
+  background-color: #ffc;
+}
+
+.clock-button-inactive:hover {
+  background-color: #ddb;
+}
+
+.clock-button-initial-state:active {
+  background-color: #ffe !important;
+}
+
+.clock-button-active:active {
+  background-color: #ffe !important;
+}
+
+.clock-button-inactive:active {
+  background-color: #ddb !important;
 }
