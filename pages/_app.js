@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Shogi Clock</title>
-        <meta name="description" content="Organize Shogi Swiss tournaments" />
+        <meta name="description" content="A chess clock, but for shogi!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />

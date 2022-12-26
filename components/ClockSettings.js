@@ -10,7 +10,7 @@ export default function ClockSettings({ clockConfig, setClockConfig, clockState,
   const [showSettings, setShowSettings] = useState(false);
   const hasTransitionedIn = useMountTransition(showSettings, TRANSITION_DELAY);
   return (
-    <div id='clock-settings-with-show-button-parent'>
+    <div id='clock-settings-with-show-button'>
       { (showSettings || hasTransitionedIn) && (
         <div
           id='clock-settings-wrapper'
