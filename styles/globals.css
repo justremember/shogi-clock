@@ -1,3 +1,35 @@
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: url("fonts/DejaVuSansMono.ttf");
+}
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: url("fonts/DejaVuSansMono-Bold.ttf");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: url("fonts/DejaVuSansMono-Oblique.ttf");
+    font-style: italic;
+}
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: url("fonts/DejaVuSansMono-BoldOblique.ttf");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: url("fonts/DejaVuSansMono-Oblique.ttf");
+    font-style: oblique;
+}
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: url("fonts/DejaVuSansMono-BoldOblique.ttf");
+    font-weight: bold;
+    font-style: oblique;
+}
+
 #clock-settings-with-show-button {
   position: absolute;
   top: 0;
@@ -39,12 +71,20 @@
 }
 
 
-
 .clock-button {
   height: 100vh;
-  font-size: 4vw;
+  font-size: 3vw;
+  font-family: "DejaVu Sans Mono", monospace, monospace;
+  font-weight: bold;
 }
 
+.clock-button.normal-mode {
+  font-size: 3vw;
+}
+
+.clock-button.tournament-mode {
+  font-size: 7vw;
+}
 
 .clock-button-initial-state {
   background-color: #bcb;

@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 
 export const initialFormValues = {
-  clockMode: 'normalMode', // normalMode or TournamentMode
+  clockMode: 'normalMode', // normalMode or tournamentMode
   // normalMode form values
   initialTime: { h: 0, m: 5, s: 0 },
   byo: { h: 0, m: 0, s: 30 },
