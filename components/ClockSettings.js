@@ -19,7 +19,7 @@ export default function ClockSettings({ clockConfig, setClockConfig, clockState,
             && 'visible'
           } bg-light`}
           style={{
-            'transition-duration': TRANSITION_DELAY + 'ms'
+            transitionDuration: TRANSITION_DELAY + 'ms'
           }}
         >
           <div id='clock-settings-content'>
