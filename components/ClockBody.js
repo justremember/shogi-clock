@@ -8,11 +8,11 @@ export default function ClockBody({ clockConfig, clockState, clockDispatch }) {
     }
   }
   useHotkeys(
-    'q, w, e, r, t, a, s, d, f, g, z, x, c,v, b',
+    'q, w, e, r, t, a, s, d, f, g, z, x, c, v, b, left',
     onKeyPress(0)
   );
   useHotkeys(
-    'y, u, i, o, p, [, ], h, j, k, l, ;, \', n, m, comma, ., /',
+    'y, u, i, o, p, [, ], h, j, k, l, ;, \', n, m, comma, ., /, right',
     onKeyPress(1)
   );
   useHotkeys(
