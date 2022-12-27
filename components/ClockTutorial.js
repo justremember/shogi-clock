@@ -5,9 +5,15 @@ import qwerty from '@/public/images/qwerty.png';
 export default function ClockTutorial() {
   return (
     <div id='tutorial' className='mt-3'>
-      <h2>Tutorial</h2>
+      <h2>About Shogi Clock</h2>
       <p>
-        Shogi Clock is a chess clock meant to be used for shogi games.
+        Shogi Clock is a chess clock webapp meant to be used for shogi games.
+      </p>
+      <p>
+        It has <a href='https://en.wikipedia.org/wiki/Time_control#Byo-yomi' target='_blank' rel='noreferrer noopener'>byoyomi (countdown)</a> features which are present in few chess clocks.
+      </p>
+      <p>
+        The code is open-source. Anyone can check out the code, report bugs, and make suggestions over at <a href='https://github.com/justremember/shogi-clock' target='_blank' rel='noreferrer noopener'>the Github page</a>.
       </p>
       <h3>Keyboard controls</h3>
       <div>
