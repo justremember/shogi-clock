@@ -53,8 +53,8 @@ function byoToHuman(byo, byoPeriods) {
 }
 
 function NormalModeClockText({ timeState, clockConfig }) {
-  const mainText = timeState.initialTime > 0 ? msToHuman(timeState.initialTime) : '';
-  const secondaryText = byoToHuman(timeState.byo, timeState.byoPeriods);
+  const mainText = timeState.initialTime > 0 || clockConfig.byo === 0 ? msToHuman(timeState.initialTime) : '';
+  const secondaryText = clockConfig.byo > 0 ? byoToHuman(timeState.byo, timeState.byoPeriods) : '';
   return (
     <>
       {mainText && (
