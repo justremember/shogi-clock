@@ -82,42 +82,78 @@
   font-size: 3vw;
 }
 
+.clock-button.normal-mode .main-text {
+  font-size: 3vw;
+}
+
+.clock-button.normal-mode .secondary-text {
+  font-size: 3vw;
+  background-color: #fff;
+  margin-left: 1vw;
+}
+
+.clock-button.normal-mode .main-text + .secondary-text {
+  font-size: 2vw;
+}
+
 .clock-button.tournament-mode {
+}
+
+.clock-button.tournament-mode .main-text {
   font-size: 7vw;
 }
 
-.clock-button-initial-state {
+.clock-button.tournament-mode .secondary-text {
+  margin-left: 1vw;
+  font-size: 4vw;
+  color: #777;
+}
+
+/* Clock button background colors */
+.clock-button.initial-state {
   background-color: #bcb;
 }
 
-.clock-button-active {
+.clock-button.timeout {
+  background-color: #fbb;
+}
+
+.clock-button.active {
   background-color: #ffb;
 }
 
-.clock-button-inactive {
+.clock-button.inactive {
   background-color: #ddb;
 }
 
-.clock-button-initial-state:hover {
+.clock-button.initial-state:hover {
   background-color: #cdc;
 }
 
-.clock-button-active:hover {
+.clock-button.timeout:hover {
+  background-color: #fbb;
+}
+
+.clock-button.active:hover {
   background-color: #ffc;
 }
 
-.clock-button-inactive:hover {
+.clock-button.inactive:hover {
   background-color: #ddb;
 }
 
-.clock-button-initial-state:active {
+.clock-button.initial-state:active {
   background-color: #ffe !important;
 }
 
-.clock-button-active:active {
+.clock-button.timeout:active {
+  background-color: #fbb !important;
+}
+
+.clock-button.active:active {
   background-color: #ffe !important;
 }
 
-.clock-button-inactive:active {
+.clock-button.inactive:active {
   background-color: #ddb !important;
 }
