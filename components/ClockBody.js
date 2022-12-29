@@ -24,7 +24,7 @@ export default function ClockBody({ clockConfig, clockState, clockDispatch }) {
   return (
     <div>
       {/* Clock buttons */}
-      <div>
+      <div id='clock-body'>
         <ClockButton
           clockConfig={clockConfig}
           clockState={clockState}

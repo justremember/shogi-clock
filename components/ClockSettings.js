@@ -10,7 +10,14 @@ export default function ClockSettings({ clockConfig, setClockConfig, clockState,
   const [showSettings, setShowSettings] = useState(false);
   const hasTransitionedIn = useMountTransition(showSettings, TRANSITION_DELAY);
   return (
-    <div id='clock-settings-with-show-button'>
+    <div
+      id='clock-settings-with-show-button'
+      class={
+        clockConfig.layout === 'settingsOnSide'
+          ? 'settings-on-side'
+          : 'settings-on-top'
+      }
+    >
       { (showSettings || hasTransitionedIn) && (
         <div
           id='clock-settings-wrapper'

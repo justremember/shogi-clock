@@ -8,7 +8,9 @@ export const initialFormValues = {
   byoPeriods: 1,
   // tournamentMode form values
   totalTime: { h: 3, m: 0, s: 0 },
-  timePerByoPeriod: { h: 0, m: 1, s: 0 }
+  timePerByoPeriod: { h: 0, m: 1, s: 0 },
+
+  layout: 'settingsOnSide', // settingsOnTop or settingsOnSide
 }
 
 const durationKeys = [/*'initialTime', 'byo', */'totalTime', 'timePerByoPeriod'];

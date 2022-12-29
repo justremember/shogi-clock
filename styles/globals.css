@@ -30,13 +30,17 @@
     font-style: oblique;
 }
 
-#clock-settings-with-show-button {
+#clock-settings-with-show-button.settings-on-top {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
   width: 500px;
   max-width: 100%;
+}
+
+#clock-settings-with-show-button.settings-on-side {
+  width: 500px;
 }
 
 #clock-settings-wrapper {
