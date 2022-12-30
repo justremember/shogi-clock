@@ -7,28 +7,6 @@
     src: url("fonts/DejaVuSansMono-Bold.ttf");
     font-weight: bold;
 }
-@font-face {
-    font-family: "DejaVu Sans Mono";
-    src: url("fonts/DejaVuSansMono-Oblique.ttf");
-    font-style: italic;
-}
-@font-face {
-    font-family: "DejaVu Sans Mono";
-    src: url("fonts/DejaVuSansMono-BoldOblique.ttf");
-    font-weight: bold;
-    font-style: italic;
-}
-@font-face {
-    font-family: "DejaVu Sans Mono";
-    src: url("fonts/DejaVuSansMono-Oblique.ttf");
-    font-style: oblique;
-}
-@font-face {
-    font-family: "DejaVu Sans Mono";
-    src: url("fonts/DejaVuSansMono-BoldOblique.ttf");
-    font-weight: bold;
-    font-style: oblique;
-}
 
 #clock-settings-with-show-button {
   position: absolute;
@@ -61,6 +39,16 @@
   border-radius: 0 0 5px 5px;
   background-color: #def;
   height: 40px;
+}
+
+#show-settings-button:hover {
+  color: #08f;
+  background-color: #eff;
+}
+
+#show-settings-button:active {
+  color: #08f;
+  background-color: #eff;
 }
 
 .error-feedback {
