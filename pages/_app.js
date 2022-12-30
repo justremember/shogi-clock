@@ -1,5 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@/styles/globals.css';
+import '@/styles/custom.scss';
+import '@/styles/globals.scss';
 import { useEffect } from 'react';
 import Head from 'next/head';
 

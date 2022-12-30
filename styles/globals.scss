@@ -1,0 +1,140 @@
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: url("fonts/DejaVuSansMono.ttf");
+}
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: url("fonts/DejaVuSansMono-Bold.ttf");
+    font-weight: bold;
+}
+
+#clock-settings-with-show-button {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 500px;
+  max-width: 100%;
+
+  #clock-settings-wrapper {
+    max-height: 0;
+    transition-property: max-height;
+    /* change transition duration in components/ClockSettings.js */
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    &.visible {
+      max-height: calc(100vh - 40px); /* 40px is height of show-settings-button */
+    }
+
+    #clock-settings-content {
+      margin: 20px;
+    }
+  }
+}
+
+#show-settings-button {
+  margin: auto;
+  width: 100%;
+  border-radius: 0 0 5px 5px;
+  background-color: #def;
+  height: 40px;
+
+  &:hover {
+    color: #08f;
+    background-color: #eff;
+  }
+
+  &:active {
+    color: #08f;
+    background-color: #eff;
+  }
+}
+
+.error-feedback {
+  color: #dc3545;
+}
+
+.clock-button {
+  height: 100vh;
+  font-size: 3vw;
+  font-family: "DejaVu Sans Mono", monospace, monospace;
+  font-weight: bold;
+
+  &.normal-mode {
+    font-size: 4vw;
+
+    .main-text {
+      font-size: 4vw;
+      +  .secondary-text {
+        font-size: 2.5vw;
+      }
+    }
+
+    .secondary-text {
+      font-size: 4vw;
+      background-color: #fff;
+      margin-left: 1vw;
+    }
+  }
+
+  &.tournament-mode {
+    .main-text {
+      font-size: 7vw;
+    }
+
+    .secondary-text {
+      margin-left: 1vw;
+      font-size: 4vw;
+      color: #777;
+    }
+  }
+
+  &.initial-state {
+    background-color: #bcb;
+
+    &:hover {
+      background-color: #cdc;
+    }
+
+    &:active {
+      background-color: #ffe !important;
+    }
+  }
+
+  &.timeout {
+    background-color: #fbb;
+
+    &:hover {
+      background-color: #fbb;
+    }
+
+    &:active {
+      background-color: #fbb !important;
+    }
+  }
+
+  &.active {
+    background-color: #ffb;
+
+    &:hover {
+      background-color: #ffc;
+    }
+
+    &:active {
+      background-color: #ffe !important;
+    }
+  }
+
+  &.inactive {
+    background-color: #ddb;
+
+    &:hover {
+      background-color: #ddb;
+    }
+
+    &:active {
+      background-color: #ddb !important;
+    }
+  }
+}
