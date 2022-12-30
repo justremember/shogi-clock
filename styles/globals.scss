@@ -1,3 +1,5 @@
+@import "./custom";
+
 @font-face {
     font-family: "DejaVu Sans Mono";
     src: url("fonts/DejaVuSansMono.ttf");
@@ -91,50 +93,54 @@
   }
 
   &.initial-state {
-    background-color: #bcb;
+    $bg: #bcb;
+    background-color: $bg;
 
     &:hover {
-      background-color: #cdc;
+      background-color: tint-color($bg, 20%);
     }
 
     &:active {
-      background-color: #ffe !important;
+      background-color: tint-color($bg, 50%) !important;
     }
   }
 
   &.timeout {
-    background-color: #fbb;
+    $bg: #fbb;
+    background-color: $bg;
 
     &:hover {
-      background-color: #fbb;
+      background-color: $bg;
     }
 
     &:active {
-      background-color: #fbb !important;
+      background-color: $bg !important;
     }
   }
 
   &.active {
-    background-color: #ffb;
+    $bg: #ffb;
+    background-color: $bg;
 
     &:hover {
-      background-color: #ffc;
+      background-color: tint-color($bg, 20%);
     }
 
     &:active {
-      background-color: #ffe !important;
+      background-color: tint-color($bg, 50%) !important;
     }
   }
 
   &.inactive {
-    background-color: #ddb;
+    $bg: #ddb;
+    background-color: $bg;
 
     &:hover {
-      background-color: #ddb;
+      background-color: $bg;
     }
 
     &:active {
-      background-color: #ddb !important;
+      background-color: $bg !important;
     }
   }
 }
