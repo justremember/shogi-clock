@@ -110,7 +110,7 @@ export default function ClockButton({ id, clockConfig, clockState, clockDispatch
         `clock-button ${stateClass} ${modeClass}
         w-50 p-3 btn btn-light border border-dark rounded-0`
       }
-      onClick={() => {
+      onPointerDown={() => {
         clockDispatch({ type: 'pressClock', clock: id });
       }}
       disabled={disabled}
