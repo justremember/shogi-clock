@@ -12,6 +12,7 @@
 
 #clock-settings-with-show-button {
   position: absolute;
+  z-index: 50;
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
@@ -64,6 +65,7 @@
   font-size: 3vw;
   font-family: "DejaVu Sans Mono", monospace, monospace;
   font-weight: bold;
+  opacity: 1 !important;
 
   &.normal-mode {
     font-size: 4vw;
@@ -134,7 +136,7 @@
   }
 
   &.inactive {
-    $bg: #ddb;
+    $bg: #eeb;
     background-color: $bg;
 
     &:hover {

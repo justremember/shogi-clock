@@ -84,14 +84,19 @@ export default function ClockButton({ id, clockConfig, clockState, clockDispatch
   const timeState = clockState['clock'+id];
   const { initialTime, byo, byoPeriods } = timeState;
   let stateClass;
+  let disabled;
   if (clockState.activeClock === null) {
     stateClass = 'initial-state';
+    disabled = false;
   } else if (isTimeout(timeState)) {
     stateClass = 'timeout';
+    disabled = true;
   } else if (clockState.activeClock === id) {
     stateClass = 'active';
+    disabled = false;
   } else {
     stateClass = 'inactive';
+    disabled = true;
   }
   let modeClass;
   if (clockConfig.clockMode === 'tournamentMode') {
@@ -108,6 +113,7 @@ export default function ClockButton({ id, clockConfig, clockState, clockDispatch
       onClick={() => {
         clockDispatch({ type: 'pressClock', clock: id });
       }}
+      disabled={disabled}
     >
       <ClockText
         timeState={timeState}
