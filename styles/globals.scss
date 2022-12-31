@@ -39,17 +39,19 @@
   margin: auto;
   width: 100%;
   border-radius: 0 0 5px 5px;
-  background-color: #def;
+  $bg: #def;
+  background-color: $bg;
   height: 40px;
 
   &:hover {
     color: #08f;
-    background-color: #eff;
+    background-color: tint-color($bg, 20%);
   }
 
   &:active {
     color: #08f;
     background-color: #eff;
+    background-color: tint-color($bg, 50%);
   }
 }
 

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import qwerty from '@/public/images/qwerty.png';
+import githubMark from '@/public/images/github-mark.png';
 
 
 export default function ClockTutorial() {
@@ -13,7 +14,7 @@ export default function ClockTutorial() {
         It has <a href='https://en.wikipedia.org/wiki/Shogi#Time_control' target='_blank' rel='noreferrer noopener'>byoyomi (countdown)</a> features which are present in few chess clocks.
       </p>
       <p>
-        The code is open-source. Anyone can check out the code, report bugs, and make suggestions over at <a href='https://github.com/justremember/shogi-clock' target='_blank' rel='noreferrer noopener'>the Github page</a>.
+        The code is open-source. Anyone can check out the code, report bugs, and make suggestions over at the <a href='https://github.com/justremember/shogi-clock' target='_blank' rel='noreferrer noopener'><Image src={githubMark} width={16} alt='' style={{verticalAlign: '-1px'}}/>Github page</a>.
       </p>
       <h3>Keyboard controls</h3>
       <div>
