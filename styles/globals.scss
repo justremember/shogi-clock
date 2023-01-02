@@ -19,6 +19,8 @@
   width: 500px;
   max-width: 100%;
 
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.2);
+
   #clock-settings-wrapper {
     max-height: 0;
     transition-property: max-height;

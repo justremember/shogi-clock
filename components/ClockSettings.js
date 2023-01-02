@@ -7,7 +7,7 @@ import { useMountTransition } from '@/hooks/useMountTransition';
 const TRANSITION_DELAY = 500;
 
 export default function ClockSettings({ clockConfig, setClockConfig, clockState, clockDispatch }) {
-  const [showSettings, setShowSettings] = useState(false);
+  const [showSettings, setShowSettings] = useState(true);
   const hasTransitionedIn = useMountTransition(showSettings, TRANSITION_DELAY);
   return (
     <div id='clock-settings-with-show-button'>
