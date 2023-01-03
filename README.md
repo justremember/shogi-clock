@@ -1,4 +1,4 @@
-# [Shogi Clock](https://shogi-clock.vercel.app/)
+# Shogi Clock
 
 Shogi Clock is a chess clock webapp meant to be used for shogi games.
 
